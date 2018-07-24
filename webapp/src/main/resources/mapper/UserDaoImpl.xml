@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserDao">
+<cache type="com.example.redis.RedisCache" flushInterval="10000" readOnly="true"/>
+    <select id="findAllUser" resultMap="UserMap" useCache="true">
+        select gid ,username,password,age,sex,date_format(createDate,'%y-%m-%d') createDate from user
+    </select>
+
+    <resultMap id="UserMap" type="com.example.entity.User">
+        <id column="gid" property="gid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="createDate" property="createDate"/>
+        <collection property="bookList" column="gid" select="com.example.dao.BookDao.findBookByAuthor"/>
+    </resultMap>
+
+</mapper>

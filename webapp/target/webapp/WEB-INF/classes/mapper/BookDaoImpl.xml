@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.BookDao">
+    <cache type="com.example.redis.RedisCache" readOnly="true" flushInterval="10000"/>
+    <select id="findBookByAuthor" resultMap="bookMap" parameterType="java.lang.String" useCache="true">
+        select * from book where author=#{author}
+    </select>
+    <resultMap id="bookMap" type="com.example.entity.Book">
+        <id column="ISBN" property="ISBN"/>
+        <result column="author" property="author"/>
+        <result column="book_name" property="bookName"/>
+    </resultMap>
+</mapper>
